@@ -35,4 +35,6 @@ const Layout = styled.div`
 	align-items: center;
 	flex-direction: column;
 	height: 100vh;
+	padding-left: 25px;
+	padding-right: 25px;
 `

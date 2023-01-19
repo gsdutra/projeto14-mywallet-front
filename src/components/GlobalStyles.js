@@ -31,7 +31,7 @@ export const GlobalStyles = styled.div`
 	form{
 		display: flex;
 		flex-direction: column;
-		width: 90%;
+		width: 100%;
 		max-width: 326px;
 	}
 
