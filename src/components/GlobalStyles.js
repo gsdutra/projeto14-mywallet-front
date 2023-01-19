@@ -26,6 +26,9 @@ export const GlobalStyles = styled.div`
 		text-align: left;
 		margin-top: 25px;
 		margin-bottom: 40px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 
 	form{
