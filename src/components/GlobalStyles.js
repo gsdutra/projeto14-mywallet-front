@@ -5,7 +5,6 @@ export const GlobalStyles = styled.div`
 	width: 100%;
 	height: 100vh;
 
-
 	h1 {
 		font-family: 'Saira Stencil One', cursive;
 		color: white;
