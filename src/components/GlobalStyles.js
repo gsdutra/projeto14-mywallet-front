@@ -21,7 +21,6 @@ export const GlobalStyles = styled.div`
 		flex-direction: column;
 		width: 90%;
 		max-width: 326px;
-		margin: 26px;
 	}
 
 	input{

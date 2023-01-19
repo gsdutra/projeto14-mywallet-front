@@ -32,6 +32,10 @@ export default function Main(props){
 				<button type="submit">Entrar</button>
 			</form>
 
+			<a>
+			<Link to="/cadastro">Primeira vez? Cadastre-se!</Link>
+			</a>
+
 		</Layout>
 	</GlobalStyles>)
 }
@@ -42,5 +46,17 @@ const Layout = styled.div`
 	align-items: center;
 	flex-direction: column;
 	height: 100vh;
+
+	a{
+		text-decoration: none;
+		color: white;
+		margin-top: 36px;
+		font-family: Raleway;
+		font-size: 15px;
+		font-weight: 700;
+		line-height: 18px;
+		letter-spacing: 0em;
+		text-align: left;
+	}
 `
 
