@@ -16,6 +16,19 @@ export const GlobalStyles = styled.div`
 		margin-bottom: 28px;
 	}
 
+	h2 {
+		font-family: Raleway;
+		font-size: 26px;
+		font-weight: 700;
+		line-height: 31px;
+		letter-spacing: 0em;
+		color: white;
+		width: 100%;
+		text-align: left;
+		margin-top: 25px;
+		margin-bottom: 40px;
+	}
+
 	form{
 		display: flex;
 		flex-direction: column;
