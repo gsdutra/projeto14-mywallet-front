@@ -240,7 +240,6 @@ const RegistrosVazio = styled.div`
 		letter-spacing: 0em;
 		color: #868686;
 		width: 180px;
-		margin-top: 30vh;
 		text-align: center;
 	}
 `
