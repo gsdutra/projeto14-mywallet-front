@@ -1,9 +1,10 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import styled from 'styled-components'
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom"
 import axios from 'axios'
 
 import exitIcon from '../assets/exit.png'
+import TokenContext from '../contexts/TokenContext.js'
 
 import {GlobalStyles} from './GlobalStyles.js'
 
@@ -11,10 +12,17 @@ export default function Home(props){
 
 	const nav = useNavigate();
 
+	const {token, setToken} = useContext(TokenContext)
+
+	function logOut(){
+		setToken("")
+		nav("/")
+	}
+
 	return(<GlobalStyles>
 		<Layout>
 			<section>
-				<h2>Olá, Fulano <img src={exitIcon}/></h2> 
+				<h2>Olá, Fulano <img src={exitIcon} onClick={logOut}/></h2> 
 				{true?
 				<RegistrosVazio>
 					<p>Não há registros de entrada ou saída</p>
@@ -64,6 +72,15 @@ const Layout = styled.div`
 	
 	ion-icon{
 		font-size: 25px;
+	}
+
+	img{
+		transition: .2s;
+		&:hover{
+			transform: scale(1.18);
+			transition: .2s;
+			cursor: pointer;
+		}
 	}
 
 	button{

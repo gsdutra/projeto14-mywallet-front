@@ -16,7 +16,7 @@ export default function Main(props){
 	const {token, setToken} = useContext(TokenContext)
 
 	function signInSuccess(res){
-		setPassword("Bearer " + res.data)
+		setToken("Bearer " + res.data)
 		nav('/home')
 	}
 

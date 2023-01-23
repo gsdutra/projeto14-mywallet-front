@@ -1,17 +1,43 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import styled from 'styled-components'
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom"
 import axios from 'axios'
 
 import {GlobalStyles} from './GlobalStyles.js'
+import TokenContext from '../contexts/TokenContext.js'
 
 export default function NovaSaida(props){
 
+	const nav = useNavigate()
+
 	const [valor, setValor] = useState("")
 	const [descricao, setDescricao] = useState("")
+	const {token, setToken} = useContext(TokenContext)
 
-	function salvarSaida(){
+	const config = {
+		headers: {
+			"Authorization": token
+		}
+	}
 
+	function postSuccess(res){
+		console.log(res)
+		nav("/home")
+	}
+
+	function salvarSaida(event){
+		event.preventDefault()
+
+		if (isNaN(Number(valor))){
+			return alert ("Valor inválido")
+		}
+		const prom = axios.post(`${process.env.REACT_APP_API_URL}/transactions`, {
+			ammount: valor,
+			type: "spent",
+			note: descricao
+		}, config)
+
+		prom.then((res)=>postSuccess(res)).catch((res)=>console.log(res))
 	}
 
 	return(<GlobalStyles>
@@ -19,11 +45,13 @@ export default function NovaSaida(props){
 			<form onSubmit={salvarSaida}>
 				<h2>Nova saída</h2>
 
-				<input required type="text" value={valor} onChange={e => setValor(e.target.value)} placeholder='Valor'></input>
+				<input required type="text" value={valor} onChange={e => 
+					setValor(e.target.value)
+					} placeholder='Valor'></input>
 
 				<input required type="text" value={descricao} onChange={e => setDescricao(e.target.value)} placeholder='Descrição'></input>
 
-				<button type="submit">Salvar saida</button>
+				<button type="submit">Salvar saída</button>
 
 			</form>
 		</Layout>
