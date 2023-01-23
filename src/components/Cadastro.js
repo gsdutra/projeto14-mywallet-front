@@ -7,12 +7,30 @@ import {GlobalStyles} from './GlobalStyles.js'
 
 export default function Cadastro(props){
 
-	const[userName, setUserName] = useState("")
-	const[userEmail, setUserEmail] = useState("")
+	console.log(process.env.REACT_APP_API_URL)
+
+	const nav = useNavigate()
+
+	const[username, setUsername] = useState("")
+	const[email, setEmail] = useState("")
 	const[password, setPassword] = useState("")
 	const[confirmPassword, setConfirmPassword] = useState("")
 
-	function signup(){
+	function signupSuccess(){
+		alert("Registro efetuado com sucesso!")
+		nav("/")
+	}
+
+	function signup(event){
+		event.preventDefault()
+		if (password !== confirmPassword){
+			return alert('As senhas precisam ser iguais')
+		}
+		const prom = axios.post(`${process.env.REACT_APP_API_URL}/signup`, {
+			username, email, password
+		})
+
+		prom.then(signupSuccess).catch((error)=>alert(error))
 	}
 
 	return(<GlobalStyles>
@@ -21,13 +39,13 @@ export default function Cadastro(props){
 
 			<form onSubmit={signup}>
 
-				<input required type="text" value={userName} onChange={e => setUserName(e.target.value)} placeholder='Nome'></input>
+				<input required type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder='Nome'></input>
 
-				<input required type="text" value={userEmail} onChange={e => setUserEmail(e.target.value)} placeholder='E-mail'></input>
+				<input required type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder='E-mail'></input>
 
-				<input required type="text" value={password} onChange={e => setPassword(e.target.value)} placeholder='Senha'></input>
+				<input required type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder='Senha'></input>
 
-				<input required type="text" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder='Confirme a senha'></input>
+				<input required type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder='Confirme a senha'></input>
 
 				<button type="submit">Cadastrar</button>
 			</form>
