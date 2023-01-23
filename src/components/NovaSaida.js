@@ -21,7 +21,7 @@ export default function NovaSaida(props){
 	}
 
 	function postSuccess(res){
-		console.log(res)
+		//console.log(res)
 		nav("/home")
 	}
 

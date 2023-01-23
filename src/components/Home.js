@@ -15,7 +15,7 @@ export default function Home(props){
 	const {token, setToken} = useContext(TokenContext)
 
 	const [name, setName] = useState("")
-	const [transactions, setTransactions] = useState([])
+	const [transactions, setTransactions] = useState({})
 
 	function logOut(){
 		setToken("")
@@ -49,21 +49,29 @@ export default function Home(props){
 		<Layout>
 			<section>
 				<h2>Olá, {name} <img src={exitIcon} onClick={logOut}/></h2> 
-				{transactions?			
+				{transactions.transactions?			
 				<Registros>
-					{transactions.map((elem, i)=>
+					{transactions.transactions.map((elem, i)=>
 						<li key={i}>
-							{elem.date}
+							<Date>
+								{elem.date}
+							</Date>
 							<Transaction>
-								<span>
+								<Note>
 									{elem.note}
-								</span>
-								<span>
+								</Note>
+								<Ammount type={elem.type}>
 									{elem.ammount}
-								</span>
+								</Ammount>
 							</Transaction>
 						</li>
 					)}
+					<Saldo>
+						<p>
+							SALDO
+						</p>
+						<Ammount type={transactions.balanceType}>{transactions.balance}</Ammount>
+					</Saldo>
 				</Registros>
 				:
 				<RegistrosVazio>
@@ -86,21 +94,70 @@ export default function Home(props){
 		</Layout>
 	</GlobalStyles>)
 }
+const Saldo = styled.div`
+	p{
+		font-family: Raleway;
+		font-size: 17px;
+		font-weight: 700;
+		line-height: 20px;
+	}
+	position: absolute;
+	bottom: 10px;
+
+	display: flex;
+	width: 95%;
+	justify-content: space-between;
+`
+
+const Date = styled.div`
+	color: #C6C6C6;
+`
+
+const Note = styled.div`
+	color: black;
+`
+
+const Ammount = styled.div`
+	color: ${props=>props.type==='received'?'#03AC00':'#C70000'};
+`
 
 const Transaction = styled.div`
-
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	margin-left: 12px;
 `
 
 const Registros = styled.div`
+
+	position: relative;
+
 	background: white;
 	border-radius: 5px;
 	width: 100%;
 	height: 70vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: start;
 	padding-left: 11px;
 	padding-right: 11px;
+	padding-bottom: 40px;
+	list-style-type: none;
+	box-sizing: border-box;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	justify-items: start;
+
+	font-family: Raleway;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 19px;
+	letter-spacing: 0em;
+	text-align: left;
+
+	li{
+		display: flex;
+		justify-content: space-between;
+	}
 `
 
 const Layout = styled.div`
