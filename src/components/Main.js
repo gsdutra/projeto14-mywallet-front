@@ -1,23 +1,34 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import styled from 'styled-components'
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom"
 import axios from 'axios'
 
 import {GlobalStyles} from './GlobalStyles.js'
+import TokenContext from '../contexts/TokenContext.js'
 
 export default function Main(props){
 
 	const nav = useNavigate()
 
-	const[userEmail, setUserEmail] = useState("")
+	const[email, setUserEmail] = useState("")
 	const[password, setPassword] = useState("")
+
+	const {token, setToken} = useContext(TokenContext)
+
+	function signInSuccess(res){
+		setPassword("Bearer " + res.data)
+		nav('/home')
+	}
 
 	function login(event){
 		event.preventDefault();
 
-		//Implement axios requisition
+		const prom = axios.post(`${process.env.REACT_APP_API_URL}/signin`, {
+			email, password
+		})
 
-		nav('/home')
+		prom.then(signInSuccess).catch(()=>alert("Usuário ou senha inválidos"))
+
 	}
 
 	return(<GlobalStyles>
@@ -25,9 +36,9 @@ export default function Main(props){
 			<h1>MyWallet</h1>
 
 			<form onSubmit={login}>
-				<input required type="text" value={userEmail} onChange={e => setUserEmail(e.target.value)} placeholder='E-mail'></input>
+				<input required type="text" value={email} onChange={e => setUserEmail(e.target.value)} placeholder='E-mail'></input>
 
-				<input required type="text" value={password} onChange={e => setPassword(e.target.value)} placeholder='Senha'></input>
+				<input required type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder='Senha'></input>
 
 				<button type="submit">Entrar</button>
 			</form>

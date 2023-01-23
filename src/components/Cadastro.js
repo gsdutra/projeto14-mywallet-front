@@ -7,8 +7,6 @@ import {GlobalStyles} from './GlobalStyles.js'
 
 export default function Cadastro(props){
 
-	console.log(process.env.REACT_APP_API_URL)
-
 	const nav = useNavigate()
 
 	const[username, setUsername] = useState("")
