@@ -14,22 +14,61 @@ export default function Home(props){
 
 	const {token, setToken} = useContext(TokenContext)
 
+	const [name, setName] = useState("")
+	const [transactions, setTransactions] = useState([])
+
 	function logOut(){
 		setToken("")
 		nav("/")
 	}
 
+	const config = {
+		headers: {
+			"Authorization": token
+		}
+	}
+
+	useEffect(()=>{
+		const nameProm = axios.get(`${process.env.REACT_APP_API_URL}/userdata`,config)
+
+		nameProm.then((res)=>setName(res.data.username)).catch(res=>console.log(res))
+	},[])
+
+
+	useEffect(()=>{
+		const transactionsProm = axios.get(`${process.env.REACT_APP_API_URL}/transactions`,config)
+
+		transactionsProm.then((res)=>setTransactions(res.data)).catch(res=>console.log(res))
+	},[])
+
+
+	// console.log(transactions)
+	// console.log(typeof(transactions))
+
 	return(<GlobalStyles>
 		<Layout>
 			<section>
-				<h2>Olá, Fulano <img src={exitIcon} onClick={logOut}/></h2> 
-				{true?
+				<h2>Olá, {name} <img src={exitIcon} onClick={logOut}/></h2> 
+				{transactions?			
+				<Registros>
+					{transactions.map((elem, i)=>
+						<li key={i}>
+							{elem.date}
+							<Transaction>
+								<span>
+									{elem.note}
+								</span>
+								<span>
+									{elem.ammount}
+								</span>
+							</Transaction>
+						</li>
+					)}
+				</Registros>
+				:
 				<RegistrosVazio>
 					<p>Não há registros de entrada ou saída</p>
 				</RegistrosVazio>
-				:
-				<Registros>
-				</Registros>
 				}
 				
 				<div>
@@ -47,6 +86,22 @@ export default function Home(props){
 		</Layout>
 	</GlobalStyles>)
 }
+
+const Transaction = styled.div`
+
+`
+
+const Registros = styled.div`
+	background: white;
+	border-radius: 5px;
+	width: 100%;
+	height: 70vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	padding-left: 11px;
+	padding-right: 11px;
+`
 
 const Layout = styled.div`
 	display: flex;
@@ -107,13 +162,6 @@ const Layout = styled.div`
 const PaddingBtns = styled.div`
 	width: 15px;
 	height: 10px;
-`
-
-const Registros = styled.div`
-	background: white;
-	border-radius: 5px;
-	width: 100%;
-	height: 70vh;
 `
 
 const RegistrosVazio = styled.div`
