@@ -49,7 +49,7 @@ export default function Home(props){
 		<Layout>
 			<section>
 				<h2>Olá, {name} <img src={exitIcon} onClick={logOut}/></h2> 
-				{transactions.transactions?			
+				{transactions.transactions.length>0?			
 				<Registros>
 					{transactions.transactions.map((elem, i)=>
 						<li key={i}>
