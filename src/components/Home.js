@@ -79,7 +79,7 @@ export default function Home(props){
 				</RegistrosVazio>
 				}
 				
-				<div>
+				<ButtonsAlign>
 					<button onClick={()=>nav("/nova-entrada")}>
 						<ion-icon name="add-circle-outline"></ion-icon>
 						<p>Nova<br/>entrada</p>
@@ -89,11 +89,18 @@ export default function Home(props){
 						<ion-icon name="remove-circle-outline"></ion-icon>
 						<p>Nova<br/>saída</p>
 					</button>
-				</div>
+				</ButtonsAlign>
 			</section>
 		</Layout>
 	</GlobalStyles>)
 }
+
+
+const ButtonsAlign = styled.div`
+	display: flex;
+	justify-content: center;
+`
+
 const Saldo = styled.div`
 	p{
 		font-family: Raleway;
@@ -157,6 +164,7 @@ const Registros = styled.div`
 	li{
 		display: flex;
 		justify-content: space-between;
+		margin-top: 14px;
 	}
 `
 
@@ -173,13 +181,6 @@ const Layout = styled.div`
 		flex-direction: column;
 		width: 100%;
 		max-width: 326px;
-	}
-
-	div{
-		display: flex;
-		justify-content: space-between;
-
-
 	}
 	
 	ion-icon{
