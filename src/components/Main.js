@@ -25,7 +25,7 @@ export default function Main(props){
 
 	function signInFail(error){
 		setLoading(false)
-		console.log("Usuário ou senha inválidos")
+		alert("Usuário ou senha inválidos")
 	}
 
 	function login(event){
