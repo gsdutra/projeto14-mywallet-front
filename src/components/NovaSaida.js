@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import {GlobalStyles} from './GlobalStyles.js'
 import TokenContext from '../contexts/TokenContext.js'
+import Loading from './Loading.js'
 
 export default function NovaSaida(props){
 
@@ -13,6 +14,7 @@ export default function NovaSaida(props){
 	const [valor, setValor] = useState("")
 	const [descricao, setDescricao] = useState("")
 	const {token, setToken} = useContext(TokenContext)
+	const [loading, setLoading] = useState(false)
 
 	const config = {
 		headers: {
@@ -25,8 +27,15 @@ export default function NovaSaida(props){
 		nav("/home")
 	}
 
+	function fail(err){
+		setLoading(false)
+		alert(err)
+	}
+
 	function salvarSaida(event){
 		event.preventDefault()
+
+		setLoading(true)
 
 		if (isNaN(Number(valor))){
 			return alert ("Valor inválido")
@@ -37,11 +46,12 @@ export default function NovaSaida(props){
 			note: descricao
 		}, config)
 
-		prom.then((res)=>postSuccess(res)).catch((res)=>console.log(res))
+		prom.then((res)=>postSuccess(res)).catch((res)=>fail(res))
 	}
 
 	return(<GlobalStyles>
-		<Layout>
+		{loading?<Loading/>:<></>}
+		<Layout className='animate__animated animate__fadeInDown'>
 			<form onSubmit={salvarSaida}>
 				<h2>Nova saída</h2>
 

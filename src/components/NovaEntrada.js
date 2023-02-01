@@ -2,9 +2,11 @@ import {useState, useEffect, useContext} from 'react'
 import styled from 'styled-components'
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom"
 import axios from 'axios'
+import 'animate.css'
 
 import {GlobalStyles} from './GlobalStyles.js'
 import TokenContext from '../contexts/TokenContext.js'
+import Loading from './Loading.js'
 
 export default function NovaEntrada(props){
 
@@ -13,6 +15,7 @@ export default function NovaEntrada(props){
 	const [valor, setValor] = useState("")
 	const [descricao, setDescricao] = useState("")
 	const {token, setToken} = useContext(TokenContext)
+	const [loading, setLoading] = useState(false)
 
 	const config = {
 		headers: {
@@ -25,8 +28,15 @@ export default function NovaEntrada(props){
 		nav("/home")
 	}
 
+	function fail(err){
+		setLoading(false)
+		alert(err)
+	}
+
 	function salvarEntrada(event){
 		event.preventDefault()
+
+		setLoading(true)
 
 		if (isNaN(Number(valor))){
 			return alert ("Valor inválido")
@@ -37,11 +47,12 @@ export default function NovaEntrada(props){
 			note: descricao
 		}, config)
 
-		prom.then((res)=>postSuccess(res)).catch((res)=>console.log(res))
+		prom.then((res)=>postSuccess(res)).catch((res)=>fail(res))
 	}
 
 	return(<GlobalStyles>
-		<Layout>
+		{loading?<Loading/>:<></>}
+		<Layout className='animate__animated animate__fadeInDown'>
 			<form onSubmit={salvarEntrada}>
 				<h2>Nova entrada</h2>
 

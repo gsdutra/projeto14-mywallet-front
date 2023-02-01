@@ -2,8 +2,10 @@ import {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom"
 import axios from 'axios'
+import 'animate.css'
 
 import {GlobalStyles} from './GlobalStyles.js'
+import Loading from './Loading.js'
 
 export default function Cadastro(props){
 
@@ -13,10 +15,16 @@ export default function Cadastro(props){
 	const[email, setEmail] = useState("")
 	const[password, setPassword] = useState("")
 	const[confirmPassword, setConfirmPassword] = useState("")
+	const[loading, setLoading] = useState(false)
 
 	function signupSuccess(){
 		alert("Registro efetuado com sucesso!")
 		nav("/")
+	}
+
+	function signupFail(error){
+		setLoading(false)
+		alert(error)
 	}
 
 	function signup(event){
@@ -24,15 +32,17 @@ export default function Cadastro(props){
 		if (password !== confirmPassword){
 			return alert('As senhas precisam ser iguais')
 		}
+		setLoading(true)
 		const prom = axios.post(`${process.env.REACT_APP_API_URL}/signup`, {
 			username, email, password
 		})
 
-		prom.then(signupSuccess).catch((error)=>alert(error))
+		prom.then(signupSuccess).catch((error)=>signupFail(error))
 	}
 
 	return(<GlobalStyles>
-		<Layout>
+		{loading?<Loading/>:<></>}
+		<Layout className='animate__animated animate__fadeInDown'>
 			<h1>MyWallet</h1>
 
 			<form onSubmit={signup}>
