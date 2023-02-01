@@ -51,21 +51,23 @@ export default function Home(props){
 				<h2>Olá, {name} <img src={exitIcon} onClick={logOut}/></h2> 
 				{(transactions.transactions && Number(transactions.balance)!==0)?	
 				<Registros>
-					{transactions.transactions.map((elem, i)=>
-						<li key={i}>
-							<Date>
-								{elem.date}
-							</Date>
-							<Transaction>
-								<Note>
-									{elem.note}
-								</Note>
-								<Ammount type={elem.type}>
-									{elem.ammount}
-								</Ammount>
-							</Transaction>
-						</li>
-					)}
+					<Lista>
+						{transactions.transactions.map((elem, i)=>
+							<li key={i}>
+								<Date>
+									{elem.date}
+								</Date>
+								<Transaction>
+									<Note>
+										{elem.note}
+									</Note>
+									<Ammount type={elem.type}>
+										{elem.ammount}
+									</Ammount>
+								</Transaction>
+							</li>
+						)}
+					</Lista>
 					<Saldo>
 						<p>
 							SALDO
@@ -100,6 +102,16 @@ const ButtonsAlign = styled.div`
 	display: flex;
 	justify-content: center;
 `
+const Lista = styled.div`
+	overflow-y: auto;
+	margin-top: 14px;
+    ::-webkit-scrollbar {
+        width: 3px;
+		background-color: #8a7896;
+  		outline: 1px solid slategrey;
+		border-radius: 5px;
+    }
+`
 
 const Saldo = styled.div`
 	p{
@@ -126,6 +138,7 @@ const Note = styled.div`
 
 const Ammount = styled.div`
 	color: ${props=>props.type==='received'?'#03AC00':'#C70000'};
+	margin-right: 5px;
 `
 
 const Transaction = styled.div`
@@ -164,7 +177,7 @@ const Registros = styled.div`
 	li{
 		display: flex;
 		justify-content: space-between;
-		margin-top: 14px;
+		margin-bottom: 14px;
 	}
 `
 
